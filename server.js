@@ -2,8 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { graphqlHTTP } = require("express-graphql");
 const { buildSchema } = require("graphql");
+const cors = require("cors");
 
 const app = express();
+app.use(cors({
+  origin: 'http://localhost:3001/api', 
+  credentials: true, 
+}));
 
 app.use(bodyParser.json());
 
@@ -26,13 +31,13 @@ const rootValue = {
   ],
 };
 
-app.use('/graphql', graphqlHTTP({
+app.use('/api', graphqlHTTP({
   schema: schema,
   rootValue: rootValue,
   graphiql: true,
 }));
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const port = 4002;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
